@@ -4,13 +4,25 @@
 	<meta charset="utf-8">
 	<title>A Simply Skeleton App</title>
 	<link rel="stylesheet" href="theds.css">
+	<style>
+		.note {
+			min-height: 1.5rem;
+			outline: 1px dotted #CCC;
+		}
+	</style>
 </head>
 <body>
 	<main class="ds-space">
-		<h1>A Simply Skeleton App</h1>
-		<button data-simply-command="demo">Demo</button>
-		<div data-flow-field="demo"></div>
+		<h1>A simple note taking app</h1>
+		<p class="note"></p>
 	</main>
-	<script src="app.js" type="module"></script>
+	<script type="module">
+		import Note from './app.js'
+
+		const note = new Note({
+			editable: document.querySelector('.note')
+		})
+		note.editor.focus()
+	</script>
 </body>
 </html>
