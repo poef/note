@@ -8,7 +8,6 @@ export default class Note
 		this.editor = options.editable
 		this.editor.setAttribute('contenteditable', true)
 		this.editor.addEventListener('keydown', (evt) => {
-			this.inputFired = false
 			const key = getKeyString(evt)
 			if (this.keyboard[key]) {
 				this.keyboard[key].call(this, evt)
