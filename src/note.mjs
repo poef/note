@@ -10,7 +10,6 @@ export default class Note
 		this.editor.addEventListener('keydown', (evt) => {
 			this.inputFired = false
 			const key = getKeyString(evt)
-			console.log(key, this.keyboard[key])
 			if (this.keyboard[key]) {
 				this.keyboard[key].call(this, evt)
 				evt.preventDefault()
