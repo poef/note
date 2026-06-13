@@ -1,0 +1,34 @@
+{
+  "name": "simplyapp",
+  "description": "Skeleton for a Simply App",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build-dev": "./node_modules/.bin/esbuild src/app.mjs --bundle --format=esm --sourcemap --outfile=www/app.js",
+    "build": "./node_modules/.bin/esbuild src/app.mjs --bundle --format=esm --sourcemap --outfile=www/app.min.js --minify",
+    "watch": "watch 'npm run build-dev' ./src & npx http-server www/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poef/simplyapp.git"
+  },
+  "author": "auke@muze.nl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/poef/simplyapp/issues"
+  },
+  "homepage": "https://github.com/poef/simplyapp/#readme",
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "jest": "^30.4.2",
+    "watch": "^1.0.2"
+  },
+  "dependencies": {
+    "@muze-nl/metro": "^0.7.1",
+    "@muze-nl/theds": "^0.2.7",
+    "simplyflow": "^0.8.2",
+    "simplyview": "^3.5.9"
+  }
+}
