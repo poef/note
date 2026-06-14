@@ -1,4 +1,4 @@
-export default class Note
+export class Note
 {
 	constructor(options)
 	{
@@ -18,6 +18,24 @@ export default class Note
 			'control-b': function() { this.exec('bold') },
 			'control-i': function() { this.exec('italic') },
 			'control-u': function() { this.exec('underline') }
+		}
+		this.selection = {
+			get: () => {
+				// return selection in { anchor, focus }
+				// where both are character offsets in the note
+			},
+			set: (focus, anchor=null) => {
+				// convert focus and anchor character offsets in this note (if set) to
+				// the node and nodeOffset in the DOM
+				// then either set the cursor to the focus node and offset
+				// or if anchor is also set, create a selection with the focus and anchor nodes and offsets
+			},
+			collapse: () => {
+				const focus = this.selection.get()?.focus
+				if (focus) {
+					this.selection.set(focus)
+				}
+			}
 		}
 	}
 
@@ -61,4 +79,10 @@ export function getKeyString(e)
 	}
 	keyCombination.push(e.key.toLowerCase())
 	return keyCombination.join('-')
+}
+
+
+export default function note(options)
+{
+	return new Note(options)
 }
