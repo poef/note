@@ -1,3 +1,12 @@
+import {
+	getSelection,
+	setSelection,
+	collapseSelection,
+	offsetToPosition,
+	positionToOffset,
+	getVisualLines
+} from './selection.mjs'
+
 export class Note
 {
 	constructor(options)
@@ -10,32 +19,24 @@ export class Note
 		this.editor.addEventListener('keydown', (evt) => {
 			const key = getKeyString(evt)
 			if (this.keyboard[key]) {
-				this.keyboard[key].call(this, evt)
-				evt.preventDefault()
+				const result = this.keyboard[key].call(this, evt)
+				if (typeof result=='undefined' || result) {
+					evt.preventDefault()
+				}
 			}
 		})
 		this.keyboard = {
-			'control-b': function() { this.exec('bold') },
-			'control-i': function() { this.exec('italic') },
-			'control-u': function() { this.exec('underline') }
+			'Control-b': function() { this.exec('bold') },
+			'Control-i': function() { this.exec('italic') },
+			'Control-u': function() { this.exec('underline') }
 		}
 		this.selection = {
-			get: () => {
-				// return selection in { anchor, focus }
-				// where both are character offsets in the note
-			},
-			set: (focus, anchor=null) => {
-				// convert focus and anchor character offsets in this note (if set) to
-				// the node and nodeOffset in the DOM
-				// then either set the cursor to the focus node and offset
-				// or if anchor is also set, create a selection with the focus and anchor nodes and offsets
-			},
-			collapse: () => {
-				const focus = this.selection.get()?.focus
-				if (focus) {
-					this.selection.set(focus)
-				}
-			}
+			get: () => getSelection(this.editor),
+			set: (selection) => setSelection(this.editor, selection),
+			collapse: () => collapseSelection(this.editor),
+			offsetToPosition: (offset) => offsetToPosition(this.editor, offset),
+			positionToOffset: (left, top) => positionToOffset(this.editor, left, top),
+			getVisualLines: () => getVisualLines(this.editor)
 		}
 	}
 
@@ -66,18 +67,18 @@ export function getKeyString(e)
 	}
 	let keyCombination = []
 	if (e.ctrlKey && e.keyCode!=KEY.Control) {
-		keyCombination.push('control')
+		keyCombination.push('Control')
 	}
 	if (e.metaKey && e.keyCode!=KEY.Meta) {
-		keyCombination.push('meta')
+		keyCombination.push('Meta')
 	}
 	if (e.altKey && e.keyCode!=KEY.Alt) {
-		keyCombination.push('alt')
+		keyCombination.push('Alt')
 	}
 	if (e.shiftKey && e.keyCode!=KEY.Shift) {
-		keyCombination.push('shift')
+		keyCombination.push('Shift')
 	}
-	keyCombination.push(e.key.toLowerCase())
+	keyCombination.push(e.key)
 	return keyCombination.join('-')
 }
 
