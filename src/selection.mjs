@@ -372,3 +372,61 @@ export function findClosestOffsetInLine(line, x)
 
 	return bestOffset
 }
+
+export function moveUp(root) {
+	const selection = getSelection(root)
+	if (!selection) {
+		return true
+	}
+
+	const offset = selection.focus
+	const lines = getVisualLines(root)
+
+	const lineIndex = findLineIndex(lines, offset)
+	if (lineIndex === -1) {
+		return true
+	}
+	
+	// Previous line in same note.
+	if (lineIndex > 0) {
+		return true // allow browser to do its normal thing
+	}
+	return false
+}
+
+export function moveDown(root) {
+	const selection = getSelection(root)
+	if (!selection) {
+		return true
+	}
+
+	const offset = selection.focus
+	const lines = getVisualLines(root)
+	
+	const lineIndex = findLineIndex(lines, offset)
+	if (lineIndex === -1) {
+		return true
+	}
+
+	// next line in same note
+	if (lineIndex < lines.length - 1) {
+		return true
+	}
+	return false
+}
+
+export function getCaretPosition(root) {
+	const selection = getSelection(root)
+	if (!selection) {
+		return false
+	}
+
+	const offset = selection.focus
+	return offsetToPosition(root, offset)
+}
+
+export function setCaretPosition(root, line, desiredX) {
+	root.focus()
+	const targetOffset = findClosestOffsetInLine(line, desiredX)
+	setSelection(root, {focus:targetOffset})
+}

@@ -4,7 +4,11 @@ import {
 	collapseSelection,
 	offsetToPosition,
 	positionToOffset,
-	getVisualLines
+	getVisualLines,
+	getCaretPosition,
+	setCaretPosition,
+	moveUp,
+	moveDown
 } from './selection.mjs'
 
 export class Note
@@ -36,7 +40,11 @@ export class Note
 			collapse: () => collapseSelection(this.editor),
 			offsetToPosition: (offset) => offsetToPosition(this.editor, offset),
 			positionToOffset: (left, top) => positionToOffset(this.editor, left, top),
-			getVisualLines: () => getVisualLines(this.editor)
+			getVisualLines: () => getVisualLines(this.editor),
+			getCaretPosition: () => getCaretPosition(this.editor),
+			setCaretPosition: (line, desiredX) => setCaretPosition(this.editor, line, desiredX),
+			moveDown: () => moveDown(this.editor),
+			moveUp: () => moveUp(this.editor)
 		}
 	}
 
